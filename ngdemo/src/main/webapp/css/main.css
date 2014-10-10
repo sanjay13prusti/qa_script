@@ -1,0 +1,134 @@
+/*body {
+    font-family: 'lucida grande', tahoma, verdana, arial, sans-serif;
+    font-size: 11px;
+}*/
+
+/*h1 {
+    font-size: 15px;
+}*/
+
+/*a {
+    color: #548dc4;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+table.testgrid {
+    border-collapse: collapse;
+    border: 1px solid #CCB;
+    width: 100%;
+}
+table.testgrid td,
+table.testgrid th {
+    padding: 5px;
+    border: 1px solid #E0E0E0;
+}
+table.testgrid th {
+    background: #E5E5E5;
+    text-align: left;
+}
+input.invalid {
+    background: red;
+    color: #FDFDFD;
+}
+@media (max-width: 40em) {*/
+
+/*show every item as a line*/
+
+/*.testgrid td,
+    .testgrid th {
+        width: 100%;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+        float: left;
+        clear: left;
+    }*/
+
+/*//for th and .titles display them as a big bold title with different background color*/
+
+/*.testgrid tbody th,
+    .testgrid tbody td.title {
+        display: block;
+        font-size: 1.2em;
+        line-height: 110%;
+        padding: .5em .5em;
+        background-color: #fff;
+        color: #77bbff;
+        -moz-box-shadow: 0 1px 6px rgba(0, 0, 0, .1);
+        -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, .1);
+        box-shadow: 0 1px 6px rgba(0, 0, 0, .1);
+    }*/
+
+/*//for th only this is only for margin to override previous css*/
+
+/*.testgrid tbody th {
+        margin-top: 0;
+        text-align: left;
+    }
+}
+input {
+    border: none;
+}
+background:white;
+ table {
+    border-collapse: collapse;
+}
+td > div {
+    width: 55pt;
+    height: 16pt;
+}
+td {
+    border: 1px solid #EEE;
+}*/
+
+/*
+.spreadsheet {
+    height: 250px;
+    border: 1px solid #ddd;
+}
+#ss {
+    height: 300px;
+    border: 1px solid gray;
+}
+#saveButton {
+    margin: 0px auto;
+}*/
+
+/* Fix for Bootstrap 3 with Angular UI Bootstrap */
+
+.modal {
+    display: block;
+}
+/* Custom dialog/modal headers */
+
+.dialog-header-error {
+    background-color: #d2322d;
+}
+.dialog-header-wait {
+    background-color: #428bca;
+}
+.dialog-header-notify {
+    background-color: #eeeeee;
+}
+.dialog-header-confirm {
+    background-color: #333333;
+}
+.dialog-header-error span,
+.dialog-header-error h4,
+.dialog-header-wait span,
+.dialog-header-wait h4,
+.dialog-header-confirm span,
+.dialog-header-confirm h4 {
+    color: #ffffff;
+}
+/* Ease Display */
+
+.pad {
+    padding: 25px;
+}
+.spreadsheet {
+    height: 250px;
+    border: 1px solid #ddd;
+}
