@@ -53,22 +53,12 @@ app
 
 					$scope.getSheet = function() {
 						$scope.sheetname = "vsheet";
-						//$scope.viewsheet= sheetFactory.getScriptSheet();
-						//console.log(JSON.stringify(sheetFactory.getScriptSheet()));
 						sheetFactory.getScriptSheet().success(function(data){
-							//var stringData=JSON.stringify(data);
-							//var a=JSON.stringify(data)
-							//console.log(a);
 							$scope.viewsheet=data;
 						});
-						//displaySpread(viewSheetData, viewSpreadSheet);
 					}; 
 					$scope.getSheet();
 					// end getSheet
-					/*$("document").ready(function() {
-						$('#viewSpreadSheet').click();
-					});*/
-
 				})
 		// end QAController
 		.controller(
@@ -124,9 +114,6 @@ app
 
 /* create spread sheet with user given no. of rows */
 function createSpread(noOfRows, spread) {
-
-	// var spread = $("#createSheetDiv").wijspread("spread");
-
 	spread.useWijmoTheme = true;
 	spread.tabStripVisible(false);
 	spread.showHorizontalScrollbar(false);
@@ -157,56 +144,6 @@ function createSpread(noOfRows, spread) {
 	sheet.setColumnWidth(3, 150);
 	sheet.setColumnWidth(4, 150);
 	sheet.setColumnWidth(5, 100);
-	sheet.setColumnWidth(6, 100);
-	var filter = new $.wijmo.wijspread.HideRowFilter(
-			new $.wijmo.wijspread.Range(-1, 0, -1, 2));
-	sheet.rowFilter(filter);
-	filter.setShowFilterButton(false);
-	sheet.isPaintSuspended(false);
-}
-
-function displaySpread(sheetData, spread) {
-
-	// var spread = $("#viewSheetDiv").wijspread("spread");
-
-	spread.useWijmoTheme = true;
-	spread.tabStripVisible(false);
-	spread.showHorizontalScrollbar(false);
-	spread.showVerticalScrollbar(false);
-
-	var sheet = spread.getActiveSheet();
-	sheet.isPaintSuspended(true);
-
-	/*
-	 * sheet.setRowCount(noOfRows); sheet.setColumnCount(7);
-	 */
-	var rc = sheet.getRowCount();
-	var cc = sheet.getColumnCount();
-
-	/*
-	 * for (var r = 0; r < rc; r++) { for (var c = 0; c < cc; c++) { if (c == 0) {
-	 * sheet.setValue(r, c, "Value is Number"); } else { sheet.setValue(r, c, r +
-	 * c); } } }
-	 */
-
-	/* set column header name */
-	sheet.setValue(0, 0, "Test Case ID", $.wijmo.wijspread.SheetArea.colHeader);
-	sheet.setValue(0, 1, "Test Step", $.wijmo.wijspread.SheetArea.colHeader);
-	sheet.setValue(0, 2, "Request URL", $.wijmo.wijspread.SheetArea.colHeader);
-	sheet.setValue(0, 3, "Type (GET/POST)",
-			$.wijmo.wijspread.SheetArea.colHeader);
-	sheet.setValue(0, 4, "Expected Assertion",
-			$.wijmo.wijspread.SheetArea.colHeader);
-	sheet.setValue(0, 5, "Expected Value",
-			$.wijmo.wijspread.SheetArea.colHeader);
-	sheet.setValue(0, 6, "Status", $.wijmo.wijspread.SheetArea.colHeader);
-	/* set column width */
-	sheet.setColumnWidth(0, 100);
-	sheet.setColumnWidth(1, 200);
-	sheet.setColumnWidth(2, 150);
-	sheet.setColumnWidth(3, 150);
-	sheet.setColumnWidth(4, 150);
-	sheet.setColumnWidth(5, 140);
 	sheet.setColumnWidth(6, 100);
 	var filter = new $.wijmo.wijspread.HideRowFilter(
 			new $.wijmo.wijspread.Range(-1, 0, -1, 2));
