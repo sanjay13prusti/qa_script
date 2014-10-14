@@ -1,42 +1,21 @@
-var sheetfactory = function ($http) {
-    var factory = {};
+'use strict'
+/*services*/
+var services = angular.module('qaApp');
 
-    factory.getScriptSheet = function () {
-        /*console.log(topsheet);
-        return topsheet;*/
-    	/*return $resource('/ngdemo/rest/users', {}, {
-            query: {
-                method: 'GET',
-                params: {},
-                isArray: false
-            }
-        })*/
-    	var jsonresponse=$http.get('/ngdemo/rest/documents');
-    	console.log(jsonresponse + "jsonrespo");
-    	return jsonresponse;
-    	//return topsheet;
-    }
-    return factory;
-    
-};
-angular.module('qaApp').factory('sheetFactory', sheetfactory);
-var topsheet = [
-    {
-        "Test Case ID": 1100,
-        "Test Step": "Development",
-        "Request URL": "http://qascript.atmecs.in",
-        "Type (GET/POST)": "GET",
-        "Expected Assertion": "status",
-        "Expected Value": "ok",
-        "Status": "done"
-    }
-    ,
-    {
-        "Test Case ID": 1101,
-        "Test Step": "Deployment",
-        "Request URL": "http://qascript.atmecs.in",
-        "Type (GET/POST)": "POST",
-        "Expected Assertion": "status",
-        "Expected Value": "ok",
-        "Status": "done"
-    }];
+services.factory('QAScriptFactory' , function ($http) {
+	var factory={};
+	factory.getSheetData=function(){
+		return $http.get("/ngdemo/rest/qascript");
+	};
+	factory.postSheetData=function(scriptData){
+		return $http.post("/ngdemo/rest/qascript", scriptData);
+	};
+	return factory;
+	/*return $resource('/ngdemo/rest/qascript', {});*/
+	
+	/*return $resource('/ngdemo/rest/qascript' , {} , {
+		post : {
+					method : 'POST'
+				}	
+		});*/
+});

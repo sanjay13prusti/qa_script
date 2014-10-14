@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import ngdemo.util.DBUtil;
@@ -12,8 +13,10 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 /***
  * 
@@ -25,6 +28,7 @@ public class SpreadService {
 	private String data;
 
 	/* this method retrieves all documents from mongodb */
+	@SuppressWarnings("unchecked")
 	public LinkedList<Map<String, Object>> getSpreadData()
 			throws UnknownHostException {
 		/* get dbcollection object representing a collection */
@@ -47,6 +51,20 @@ public class SpreadService {
 			}
 			linkedList.add(result);
 		}
+		
+		
+		
 		return linkedList;
+	}
+
+	public boolean postSpreadSheetData(List<BasicDBObject> list)
+			throws UnknownHostException {
+		DBCollection util = DBUtil.createInstance().getTable();
+		//System.out.println(list);
+		//Gson gson=new Gson();
+		//gson.fromJson(list, Spre)
+		for (BasicDBObject dbObject : list)
+			util.insert(dbObject);
+		return true;
 	}
 }

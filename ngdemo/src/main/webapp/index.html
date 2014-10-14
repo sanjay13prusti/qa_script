@@ -113,6 +113,8 @@
 					ng-click="saveEditedScript()"  value="Save" ng-show="sebutton">
 					<input  id="saveButton" type="submit" class="btn btn-primary"
 					ng-click="saveScript()"  value="Save" ng-show="ssbutton">
+					<button class="btn btn-primary update" ng-click="updateRow('add')" ng-show="ssbutton">Add Row</button>
+        			<button class="btn btn-primary update" ng-click="updateRow('delete')" ng-show="ssbutton">Delete Row</button>
 			</div>
 
 		</div>

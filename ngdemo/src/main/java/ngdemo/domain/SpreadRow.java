@@ -1,12 +1,18 @@
 package ngdemo.domain;
 
+import java.io.Serializable;
+
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 // from http://www.vogella.com/articles/REST/
 // JAX-RS supports an automatic mapping from JAXB annotated class to XML and
 // JSON
-public class SpreadRow {
+public class SpreadRow implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String _id;
 	private String testCaseId;
 	private String testStep;
