@@ -8,57 +8,32 @@ app
         function ($scope, $rootScope, $timeout, $modal, $log, $dialogs,
         		QAScriptFactory) {
             var sheetData = [];
-            // $scope.rows
-            // $scope.createsheet=["Test Case ID","Test Step", "Request
-            // URL", "Type", "Expected Assertion", "Expected Value",
-            // "Status"];
-            // $scope.showbutton=false;
+            $(document).ready(function(){
+            	/**
+            	 * This code resizes column width automatically in view sheet
+            	 */
+            	var viewSpread = $("#viewSpreadId").wijspread("spread");
+                var viewSheet = viewSpread.getActiveSheet();
+                viewSheet.bind($.wijmo.wijspread.Events.CellChanged, function (event, data) {
+                	console.log(data.row+", "+data.col);
+                	viewSheet.autoFitColumn(2);
+            	});// end auto resize column width
+            });
             $scope.saveEditedScript = function () {
-                var spread = $("#viewSpreadId").wijspread("spread");
-                var sheet = spread.getActiveSheet();
-                // sheet.isPaintSuspended(true);
-
-                var rc = sheet.getRowCount();
-                var cc = sheet.getColumnCount();
-                var isRowEmpty = true;
-                var jsonObject = {};
-                /* iterate spreadsheet to get cell data */
-                for (var r = 0; r < rc; r++) {
-                    for (var c = 0; c < cc; c++) {
-
-                        var cellKey = sheet.getValue(0, c,
-                            $.wijmo.wijspread.SheetArea.colHeader);
-                        var cellValue = sheet.getValue(r, c);
-                        if (cellValue != null)
-                            isRowEmpty = false;
-                        jsonObject[cellKey] = cellValue;
-                    } // inner for
-                    if (!isRowEmpty) {
-                        sheetData.push(jsonObject);
-                        isRowEmpty = true;
-                    } // end if
-
-                    jsonObject = {};
-                } // outer for
-                console.log(JSON.stringify("edited data : " + JSON.stringify(sheetData)));
-                callToService(sheetData);
-                $scope.viewsheet = [];
+                console.log("edited");
             };
             $scope.launch = function () {
                 var dlg = null;
                 // Create Your Own Dialog
                 dlg = $dialogs.create('/dialogs/howmanyrows.html',
-                    'howManyRowsCtrl', {}, {
+                    'HowManyRowsCtrl', {}, {
                         key: false,
                         back: 'static'
                     });
-                
                  dlg.result.then(function(){
                 	 $scope.sebutton = false;
                      $scope.ssbutton = true;
-                 },function(){ 
-                	 
-                 });
+                 },function(){});
                  
                 $scope.sheetname = "csheet";
                 
@@ -68,7 +43,7 @@ app
             /* get sheet data on save button click */
             $scope.saveScript = function () {
                 
-                console.log("in controller");
+               // console.log("in controller");
                 var spread = $("#createSheetDiv").wijspread("spread");
                 var sheet = spread.getActiveSheet();
                 // sheet.isPaintSuspended(true);
@@ -98,8 +73,9 @@ app
 
                     jsonObject = {};
                 } // outer for
-                console.log(JSON.stringify("save data : " + JSON.stringify(sheetData)));
+                //console.log(JSON.stringify("save data : " + JSON.stringify(sheetData)));
                 callToService(sheetData);
+                
             }; // end saveScript
             
             	// add or delete row
@@ -150,6 +126,7 @@ app
             	QAScriptFactory.postSheetData(saveData)
             	.success(function(data){
                 	console.log(data);
+                	$scope.getSheet();
                 }).error(function(status){
                 	console.log(status);
                 });
@@ -158,7 +135,7 @@ app
         })
 // end QAController
 .controller(
-    'howManyRowsCtrl',
+    'HowManyRowsCtrl',
     function ($scope, $modalInstance, data) {
         $scope.user = {
             rows: ''
@@ -170,19 +147,7 @@ app
 
         $scope.save = function () {
             $modalInstance.close($scope.user.rows);
-            // console.log("in save: "+$scope.user.rows);
-            // $scope.showbutton=true;
-            // console.log($scope.showbutton)
             $("#createSheetDiv").empty();
-            // $("#createSheetDiv").wijspread();
-            // $scope.sheetname = "csheet";
-            // $scope.createsheet=[];
-            /*
-             * var cspread =
-             * $("#createSpreadId").wijspread("spread"); var csheet =
-             * cspread.getActiveSheet();
-             * csheet.setRowCount($scope.user.rows);
-             */
             $("#createSheetDiv").wijspread({
                 sheetCount: 1
             });
@@ -206,7 +171,7 @@ app
                 $scope.save();
         }; // end hitEnter
     })
-// end howManyRowsCtrl
+// end HowManyRowsCtrl
 .run(
     [
       '$templateCache',
@@ -217,7 +182,9 @@ app
                     '<div class="modal"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h4 class="modal-title"><span class="glyphicon glyphicon-star"></span>Row Numbers</h4></div><div class="modal-body"><ng-form name="nameDialog" novalidate role="form"><div class="form-group input-group-lg" ng-class="{true: \'has-error\'}[nameDialog.username.$dirty && nameDialog.username.$invalid]"><label class="control-label" for="username">Rows:</label><input type="number" min="1" max="20" class="form-control" name="username" id="username" ng-model="user.rows" ng-keyup="hitEnter($event)" required><span class="help-block">Number of rows in sheet</span></div></ng-form></div><div class="modal-footer"><button type="button" class="btn btn-default" ng-click="cancel()">Cancel</button><button type="button" class="btn btn-primary" ng-click="save()" ng-disabled="(nameDialog.$dirty && nameDialog.$invalid) || nameDialog.$pristine">Save</button></div></div></div></div>');
       }]);
 
-/* create spread sheet with user given no. of rows */
+/**
+ * This function creates spread sheet with user given no. of rows 
+ */
 function createSpread(noOfRows, spread) {
 	temp=noOfRows;
     spread.useWijmoTheme = true;
@@ -238,12 +205,10 @@ function createSpread(noOfRows, spread) {
     sheet.setValue(0, 0, "Test Case ID", $.wijmo.wijspread.SheetArea.colHeader);
     sheet.setValue(0, 1, "Test Step", $.wijmo.wijspread.SheetArea.colHeader);
     sheet.setValue(0, 2, "Request URL", $.wijmo.wijspread.SheetArea.colHeader);
-    /*sheet.setValue(0, 3, "Type (GET/POST)",
-        $.wijmo.wijspread.SheetArea.colHeader);*/
     for (var r = 0; r < rc; r++){
       sheet.setValue(0, 3, "Type", $.wijmo.wijspread.SheetArea.colHeader,
       sheet.getCell(r, 3).cellType(cellType2));     
-	} 
+    }
     sheet.setValue(0, 4, "Expected Assertion",
         $.wijmo.wijspread.SheetArea.colHeader);
     sheet.setValue(0, 5, "Expected Value",
@@ -251,15 +216,21 @@ function createSpread(noOfRows, spread) {
     sheet.setValue(0, 6, "Status", $.wijmo.wijspread.SheetArea.colHeader);
     /* set column width */
     sheet.setColumnWidth(0, 100);
-    sheet.setColumnWidth(1, 300);
+    //sheet.setColumnWidth(1, 300);
+    sheet.getCell(1,2).shrinkToFit(true);
     sheet.setColumnWidth(2, 200);
     sheet.setColumnWidth(3, 150);
     sheet.setColumnWidth(4, 150);
     sheet.setColumnWidth(5, 100);
     sheet.setColumnWidth(6, 100);
+    
     var filter = new $.wijmo.wijspread.HideRowFilter(
         new $.wijmo.wijspread.Range(-1, 0, -1, 2));
     sheet.rowFilter(filter);
     filter.setShowFilterButton(false);
     sheet.isPaintSuspended(false);
+     // This code resizes column width automatically in view sheet 
+    sheet.bind($.wijmo.wijspread.Events.CellChanged, function (){
+    	sheet.autoFitColumn(1);
+ 	});
 }
